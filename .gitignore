@@ -1,0 +1,60 @@
+# ======================
+# GENERAL
+# ======================
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.env.*.local
+
+# ======================
+# NODE / CLIENT
+# ======================
+client/node_modules
+client/dist
+client/.vite
+client/.env
+client/.env.*
+
+# logs
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# ======================
+# GO / SERVER
+# ======================
+server/bin/
+server/tmp/
+server/*.exe
+server/*.out
+
+# SQLite DB (ВАЖНО)
+server/tasks.db
+server/*.db
+
+# ======================
+# BUILD FILES
+# ======================
+dist/
+build/
+coverage/
+
+# ======================
+# DOCKER
+# ======================
+docker-compose.override.yml
+
+# ======================
+# IDE
+# ======================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ======================
+# TESTS
+# ======================
+coverage/
+*.test

@@ -1,0 +1,165 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #222;
+}
+
+.app {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app-header {
+  margin-bottom: 20px;
+}
+
+.app-header h1 {
+  margin: 0;
+}
+
+.task-form,
+.filter-bar {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.task-form input,
+.task-form textarea,
+.task-form select,
+.task-form button,
+.filter-bar input,
+.filter-bar select {
+  padding: 10px;
+  border: 1px solid #d6dbe3;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.task-form button {
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+  border: none;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.task-column {
+  background: #e9eef6;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 400px;
+}
+
+.task-column h2 {
+  margin-top: 0;
+}
+
+.task-list {
+  display: grid;
+  gap: 12px;
+}
+
+.task-card {
+  background: white;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.task-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.task-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.priority {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.priority.low {
+  background: #dbeafe;
+}
+
+.priority.medium {
+  background: #fef3c7;
+}
+
+.priority.high {
+  background: #fee2e2;
+}
+
+.delete-btn {
+  margin-top: 10px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #b91c1c;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.stat-card h3 {
+  margin-top: 0;
+}
+
+.activity-log {
+  margin-top: 24px;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+@media (max-width: 900px) {
+  .stats-bar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,22 @@
+services:
+  server:
+    build: ./server
+    container_name: task-dashboard-server
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - FRONTEND_URL=http://localhost:3000
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+      args:
+        VITE_API_URL: http://localhost:8080
+    container_name: task-dashboard-client
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    restart: unless-stopped
