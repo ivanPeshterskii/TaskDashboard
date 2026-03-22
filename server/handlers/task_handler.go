@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"strings"
@@ -30,16 +31,21 @@ type UpdateTaskInput struct {
 }
 
 func parseDueDate(dateStr string) (*time.Time, error) {
-	if strings.TrimSpace(dateStr) == "" {
+	dateStr = strings.TrimSpace(dateStr)
+	if dateStr == "" {
 		return nil, nil
 	}
 
-	parsed, err := time.Parse("2006-01-02", dateStr)
-	if err != nil {
-		return nil, err
+	if parsed, err := time.Parse("2006-01-02", dateStr); err == nil {
+		return &parsed, nil
 	}
 
-	return &parsed, nil
+	if parsed, err := time.Parse(time.RFC3339, dateStr); err == nil {
+		dateOnly := time.Date(parsed.Year(), parsed.Month(), parsed.Day(), 0, 0, 0, 0, time.UTC)
+		return &dateOnly, nil
+	}
+
+	return nil, errors.New("invalid due date format")
 }
 
 func GetTasks(c *gin.Context) {
@@ -58,7 +64,6 @@ func GetTasks(c *gin.Context) {
 	}
 
 	query.Order("created_at desc").Find(&tasks)
-
 	c.JSON(http.StatusOK, tasks)
 }
 
@@ -150,6 +155,7 @@ func UpdateTask(c *gin.Context) {
 	}
 
 	utils.LogActivity(task.ID, "UPDATE", "Task updated")
+
 	if oldStatus != task.Status {
 		utils.LogActivity(task.ID, "STATUS_CHANGE", "Status changed from "+oldStatus+" to "+task.Status)
 	}
@@ -177,7 +183,6 @@ func DeleteTask(c *gin.Context) {
 	}
 
 	utils.LogActivity(task.ID, "DELETE", "Task deleted")
-
 	c.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully"})
 }
 
@@ -196,7 +201,6 @@ func GetActivityLog(c *gin.Context) {
 	}
 
 	var logs []models.ActivityLog
-
 	if err := database.DB.
 		Order("created_at desc").
 		Limit(limit).
