@@ -8,6 +8,11 @@ import type { Task, TaskInput, TaskStatus } from './types/task';
 import StatsBar from './components/StatsBar';
 import ActivityLog from './components/ActivityLog';
 
+function normalizeDueDateForApi(dueDate?: string | null): string | null {
+  if (!dueDate) return null;
+  return dueDate.includes('T') ? dueDate.split('T')[0] : dueDate;
+}
+
 export default function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [priorityFilter, setPriorityFilter] = useState('');
@@ -49,20 +54,22 @@ export default function App() {
   }
 
   async function handleStatusChange(task: Task, newStatus: TaskStatus) {
-    try {
-      setError('');
-      await updateTask(task.id, {
-        title: task.title,
-        description: task.description,
-        priority: task.priority,
-        status: newStatus,
-        dueDate: task.dueDate || null,
-      });
-      await loadTasks();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update task');
-    }
+  try {
+    setError('');
+
+    await updateTask(task.id, {
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      status: newStatus,
+      dueDate: normalizeDueDateForApi(task.dueDate),
+    });
+
+    await loadTasks();
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'Failed to update task');
   }
+}
 
   const todoTasks = tasks.filter((task) => task.status === 'To Do');
   const inProgressTasks = tasks.filter((task) => task.status === 'In Progress');
